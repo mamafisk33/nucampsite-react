@@ -1,7 +1,7 @@
 export const CAMPSITES = [
   {
     id: 0,
-    name: "Lake Campground",
+    name: "React Lake Campground",
     image: "assets/images/react-lake.jpg",
     elevation: 1233,
     description:
@@ -10,7 +10,7 @@ export const CAMPSITES = [
       {
         id: 0,
         rating: 5,
-        text: "React What a magnificent view!",
+        text: "What a magnificent view!",
         author: "Tinus Lorvaldes",
         date: "2018-10-25T16:30Z"
       },
