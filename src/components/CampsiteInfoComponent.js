@@ -1,14 +1,149 @@
-import React from "react";
+import React, { Component } from "react";
 import {
+  Button,
   Card,
   CardImg,
   CardText,
   CardBody,
-  CardTitle,
   Breadcrumb,
-  BreadcrumbItem
+  BreadcrumbItem,
+  Label,
+  Modal,
+  ModalHeader,
+  ModalBody,
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import { Control, LocalForm, Errors } from "react-redux-form";
+import "font-awesome/css/font-awesome.css";
+
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !val || val.length <= len;
+const minLength = (len) => (val) => val && val.length >= len;
+
+class CommentForm extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isModalOpen: false,
+      rating: 5,
+      author: "",
+      text: "",
+      touched: {
+        author: false,
+      },
+    };
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
+  }
+
+  handleSubmit(values) {
+    console.log("Current state is: " + JSON.stringify(values));
+    alert("Current state is: " + JSON.stringify(values));
+    this.toggleModal();
+  }
+
+  toggleModal() {
+    this.setState({
+      isModalOpen: !this.state.isModalOpen,
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <Button outline color="secondary" onClick={this.toggleModal}>
+          <i className="fa fa-pencil fa-lg" /> Submit Comment{" "}
+        </Button>
+        <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+          <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
+          <ModalBody>
+            <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
+              <div className="form-group">
+                <Label>Rating</Label>
+                <Control.select
+                  model=".rating"
+                  id="rating"
+                  name="rating"
+                  className="form-control"
+                  validators={{ required }}>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </Control.select>
+                <Errors
+                  className="text-danger"
+                  model=".rating"
+                  show="touched"
+                  component="div"
+                  messages={{
+                    required: "Required",
+                  }}
+                />
+              </div>
+              <div className="form-group">
+                <Control.text
+                  model=".author"
+                  id="author"
+                  name="author"
+                  placeholder="Your Name"
+                  className="form-control"
+                  validators={{
+                    required,
+                    minLength: minLength(2),
+                    maxLength: maxLength(15),
+                  }}
+                />
+                <Errors
+                  className="text-danger"
+                  model=".author"
+                  show="touched"
+                  component="div"
+                  messages={{
+                    required: "Required",
+                    minLength: "Must be at least 2 characters",
+                    maxLength: "Must be 15 characters or less",
+                  }}
+                />
+              </div>
+              <div className="form-group">
+                <Control.textarea
+                  model=".text"
+                  id="text"
+                  name="text"
+                  placeholder="Your Comments Here"
+                  className="form-control"
+                  rows="6"
+                  validators={{
+                    required,
+                    minLength: minLength(2),
+                  }}
+                />
+                <Errors
+                  className="text-danger"
+                  model=".text"
+                  show="touched"
+                  component="div"
+                  messages={{
+                    required: "Required",
+                    minLength: "Must be at least 2 characters",
+                    maxLength: "Must be 15 characters or less",
+                  }}
+                />
+              </div>
+              <Button color="primary" type="submit">
+                Submit
+              </Button>{" "}
+            </LocalForm>
+          </ModalBody>
+        </Modal>
+      </div>
+    );
+  }
+}
 
 function RenderCampsite({ campsite }) {
   return (
@@ -28,7 +163,7 @@ function RenderComments({ comments }) {
     return (
       <div className="col-md-5 m-1">
         <h4>Comments</h4>
-        {comments.map(comment => {
+        {comments.map((comment) => {
           return (
             <div key={comment.id}>
               <p>
@@ -38,12 +173,13 @@ function RenderComments({ comments }) {
                 {new Intl.DateTimeFormat("en-US", {
                   year: "numeric",
                   month: "short",
-                  day: "2-digit"
+                  day: "2-digit",
                 }).format(new Date(Date.parse(comment.date)))}
               </p>
             </div>
           );
         })}
+        <CommentForm />
       </div>
     );
   }
