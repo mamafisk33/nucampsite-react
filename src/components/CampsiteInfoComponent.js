@@ -116,7 +116,7 @@ class CommentForm extends Component {
                   name="text"
                   placeholder="Your Comments Here"
                   className="form-control"
-                  rows="6"
+                  rows={6}
                   validators={{
                     required,
                     minLength: minLength(2),
