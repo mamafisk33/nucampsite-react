@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Breadcrumb, BreadcrumbItem, Button, Label, Col, Row } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Control, Form, Errors, actions } from "react-redux-form";
+import { postFeedback } from "../redux/ActionCreators";
+import { Loading } from "./LoadingComponent";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -16,7 +18,7 @@ class Contact extends Component {
     this.state = {
       firstName: "",
       lastName: "",
-      phoneNum: "",
+      phonenum: "",
       email: "",
       agree: false,
       contactType: "By Phone",
@@ -24,7 +26,7 @@ class Contact extends Component {
       touched: {
         firstName: false,
         lastName: false,
-        phoneNum: false,
+        phonenum: false,
         email: false,
       },
     };
@@ -33,8 +35,9 @@ class Contact extends Component {
   }
 
   handleSubmit(values) {
-    console.log("Current State is: " + JSON.stringify(values));
-    alert("Current State is: " + JSON.stringify(values));
+    //console.log("Current State is: " + JSON.stringify(values));
+    //alert("Current State is: " + JSON.stringify(values));
+    this.props.postFeedback(values);
     this.props.resetFeedbackForm();
   }
 
@@ -142,14 +145,14 @@ class Contact extends Component {
                 </Col>
               </Row>
               <Row className="form-group">
-                <Label htmlFor="phoneNum" md={2}>
+                <Label htmlFor="phonenum" md={2}>
                   Phone
                 </Label>
                 <Col md={10}>
                   <Control.text
-                    model=".phoneNum"
-                    id="phoneNum"
-                    name="phoneNum"
+                    model=".phonenum"
+                    id="phonenum"
+                    name="phonenum"
                     placeholder="Phone number"
                     className="form-control"
                     validators={{
@@ -161,7 +164,7 @@ class Contact extends Component {
                   />
                   <Errors
                     className="text-danger"
-                    model=".phoneNum"
+                    model=".phonenum"
                     show="touched"
                     component="div"
                     messages={{
