@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Breadcrumb, BreadcrumbItem, Button, Label, Col, Row } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Control, Form, Errors } from "react-redux-form";
+import { FadeTransform } from "react-animation-components";
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !val || val.length <= len;
@@ -16,7 +17,7 @@ class Contact extends Component {
     this.state = {
       firstName: "",
       lastName: "",
-      phonenum: "",
+      phoneNum: "",
       email: "",
       agree: false,
       contactType: "By Phone",
@@ -24,7 +25,7 @@ class Contact extends Component {
       touched: {
         firstName: false,
         lastName: false,
-        phonenum: false,
+        phoneNum: false,
         email: false,
       },
     };
@@ -56,23 +57,35 @@ class Contact extends Component {
 
         <div className="row row-content align-items-center">
           <div className="col-sm-4">
-            <h5>Our Address</h5>
-            <address>
-              1 Nucamp Way
-              <br />
-              Seattle, WA 98001
-              <br />
-              U.S.A.
-            </address>
+            <FadeTransform
+              in
+              transformProps={{
+                exitTransform: "scale(0.5) translateY(-50%)",
+              }}>
+              <h5>Our Address</h5>
+              <address>
+                1 Nucamp Way
+                <br />
+                Seattle, WA 98001
+                <br />
+                U.S.A.
+              </address>
+            </FadeTransform>
           </div>
           <div className="col">
-            <a role="button" className="btn btn-link" href="tel:+12065551234">
-              <i className="fa fa-phone"></i> 1-206-555-1234
-            </a>
-            <br />
-            <a role="button" className="btn btn-link" href="mailto:fakeemail@fakeemail.co">
-              <i className="fa fa-envelope-o"></i> campsites@nucamp.co
-            </a>
+            <FadeTransform
+              in
+              transformProps={{
+                exitTransform: "scale(0.5) translateY(-80%)",
+              }}>
+              <a role="button" className="btn btn-link" href="tel:+12065551234">
+                <i className="fa fa-phone"></i> 1-206-555-1234
+              </a>
+              <br />
+              <a role="button" className="btn btn-link" href="mailto:fakeemail@fakeemail.co">
+                <i className="fa fa-envelope-o"></i> campsites@nucamp.co
+              </a>
+            </FadeTransform>
           </div>
         </div>
         <div className="row row-content">
@@ -143,14 +156,14 @@ class Contact extends Component {
                 </Col>
               </Row>
               <Row className="form-group">
-                <Label htmlFor="phonenum" md={2}>
+                <Label htmlFor="phoneNum" md={2}>
                   Phone
                 </Label>
                 <Col md={10}>
                   <Control.text
-                    model=".phonenum"
-                    id="phonenum"
-                    name="phonenum"
+                    model=".phoneNum"
+                    id="phoneNum"
+                    name="phoneNum"
                     placeholder="Phone number"
                     className="form-control"
                     validators={{
@@ -162,7 +175,7 @@ class Contact extends Component {
                   />
                   <Errors
                     className="text-danger"
-                    model=".phonenum"
+                    model=".phoneNum"
                     show="touched"
                     component="div"
                     messages={{
